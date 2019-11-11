@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drawing Area</title>
+<!-- You can add your style here rather than in an external style sheet. -->
+<style>
+	canvas {
+	    border:5px solid #d3d3d3;
+	    background-color: #f1f1f1;
+	    display: block;
+	}
+</style>
+</head>
+<body>
+    <!-- DO NOT MODIFY THIS HTML -->
+    <canvas id = "myCanvas" width = "350" height = "500"  ></canvas>
+	<input type = "color" id = "picker"/>
+	
+	<script>
+
+		var canvas = document.querySelector("#myCanvas");
+		var ctx = canvas.getContext('2d');  
+		var isDrawing = true; 
+		var color = 'blue';
+		var r = 10;
+		
+		canvas_size();
+		draw();
+	
+		// Canvas size on screen
+		function canvas_size(){
+	
+			height = document.documentElement.clientHeight;
+			canvas.setAttribute("height", height * 0.8);
+	
+			width = document.documentElement.clientWidth;
+			canvas.setAttribute("width", width * 0.8);
+		}
+		
+		// Drawing function
+		function draw(posX, posY){
+	
+			// Conditional for pen up/down
+			if (isDrawing == true) {
+	
+				ctx.beginPath();
+				ctx.arc(posX, posY, r, 0, 2 * Math.PI);
+				ctx.fill();
+	
+			console.log("Is drawing");
+			}
+		}
+	
+		// Draw from mouse movement's x/y position
+		window.addEventListener('mousemove', function(e){
+			
+			posX = e.pageX;
+			console.log(e.x);
+			
+			posY = e.pageY;
+			console.log(e.y);
+			
+			draw(e.x, e.y);
+			});
+	
+		// Change color, clear screen, pen up/down 
+		window.addEventListener("keydown", function(e){
+	
+			if (e.key == "b") {
+				
+				ctx.fillStyle = "blue";
+				console.log("Color is blue");
+			}
+			
+			else if (e.key == "g") {
+				
+				ctx.fillStyle = "green";
+				console.log("Color is green");
+			}
+			
+			else if (e.key == "r") {
+				
+				ctx.fillStyle = "red";
+				console.log("Color is red");
+			}
+	
+			else if (e.key == "y") {
+				
+				ctx.fillStyle  = "yellow";
+				console.log("Color is yellow");
+			}
+		
+			if (e.key == "ArrowUp") {
+				
+				isDrawing = false;
+				console.log("Pen is up");
+			}
+			
+			if (e.key == "ArrowDown") {
+				
+				isDrawing = true;
+				console.log("Pen is down");
+			}
+			
+			if (e.key == " ") {
+				
+				ctx.clearRect(0,0, canvas.width, canvas.height);
+				console.log("Clear screen");
+			}
+		}); 
+	
+		// Update color from color picker
+		window.addEventListener("change", function(e) {
+			
+			pickerColor = (document.getElementById("picker")).value;
+			ctx.fillStyle = pickerColor;
+			console.log("Color changed");
+		})
+	</script>
+</body>
+</html>
